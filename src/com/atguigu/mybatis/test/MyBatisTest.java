@@ -154,6 +154,7 @@ public class MyBatisTest {
 			Employee e=mapper.getEmpByIdStep(1);
 			System.out.println("打印e："+e);
 			System.out.println("打印e："+e.getDept());
+			System.out.println("随便改改");
 			
 			
 			
