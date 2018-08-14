@@ -6,10 +6,7 @@ public class Department {
 	private Integer id;
 	private String departmentName;
 	private List<Employee> emps;
-	
-	
-	
-	
+		
 	
 	public List<Employee> getEmps() {
 		return emps;
