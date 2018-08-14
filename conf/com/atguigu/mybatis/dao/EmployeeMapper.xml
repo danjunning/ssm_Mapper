@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mybatis.dao.EmployeeMapper">
+
+  <!--@MapKey("id")//告诉mybatis封装这个map的时候，使用id这个属性作为主键
+	public Map<Integer, Employee> getEmpByNameLikeReturnMap(String name);//返回值是一个Map   -->
+  <select id="getEmpByNameLikeReturnMap" resultType="com.atguigu.mybatis.bean.Employee">
+      select * from tbl_employee where last_name like #{lastName}
+  </select>
+  
+<!-- public Map<String, Object> getEmpByidReturnMap(Integer id);//返回值是一个Map -->
+  <select id="getEmpByidReturnMap" resultType="map">
+    select * from tbl_employee where id = #{id}
+  </select>
+ <!--  -->
+  <!--resultType:如果返回的是一个集合，要写集合中元素的类型  
+   public List<Employee> getEmpsByLastNameLike(String lastName)-->
+  <select id="getEmpsByLastNameLike" resultType="com.atguigu.mybatis.bean.Employee">
+    select * from tbl_employee where last_name like #{lastName}
+  </select>
+  
+  <!--  -->
+  <!-- 使用map封装的参数 ，此时#{}里面直接写map里面的key-->
+  <select id="getEmpByMap" resultType="com.atguigu.mybatis.bean.Employee">
+    select * from ${tableName} where id = ${id} and last_name=#{lastName}
+  </select>
+<!-- 
+ 三种方式传参：1.param1...paramN
+              2.使用索引：0,1,2...
+              3.命名参数：@param（""）
+ -->
+  <select id="getEmpByidAndLastName" resultType="com.atguigu.mybatis.bean.Employee">
+    select * from tbl_employee where id = #{id} and last_name=#{lastName}
+  </select>
+  <select id="getEmpByid" 
+          resultType="com.atguigu.mybatis.bean.Employee"
+          databaseId="mysql">
+    select id,last_name lastName,gender,email from tbl_employee where id = #{id}
+  </select>
+  <!-- 
+    public Employee getEmpByid(Integer id);
+	public void addEmp(Employee employee);
+	public void updateEmp(Employee employee);
+	public void deleteEmp(Integer id);
+   -->
+   <!--parameterType可以省略，如果要写就要写它的全类名 
+     useGeneratedKeys="true"：表示使用自增主键获取主键值策略
+     keyProperty="id"：指定对应的主键属性，也就是mybatis获取到主键以后，把这个主键值
+                                              封装给id这个属性
+    -->
+   <insert id="addEmp" parameterType="com.atguigu.mybatis.bean.Employee"
+           useGeneratedKeys="true" keyProperty="id">
+     insert into tbl_employee(last_name,gender,email)
+     values(#{lastName},#{gender},#{email})
+   </insert>
+   <update id="updateEmp">
+      update tbl_employee
+      set last_name=#{lastName},gender=#{gender},email=#{email}
+      where id=#{id}
+   </update>
+   <delete id="deleteEmp">
+       delete from tbl_employee where id=#{id}
+   </delete>
+  
+  
+  
+  
+  
+  
+</mapper>
